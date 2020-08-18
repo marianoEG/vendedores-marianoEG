@@ -9,5 +9,14 @@ class CentroDistribucion(val ciudad: Ciudad) {
             vendedores.add(cual)
         }
     }
+    fun vendedorEstrella() = vendedores.maxBy { vend -> vend.puntajeCertificaciones() }
+    fun puedeCubrir(ciudad: Ciudad) = vendedores.any { vend -> vend.puedeTrabajarEn(ciudad) }
+    fun esRobusto() = vendedores.filter { vend -> vend.esFirme() }.size >= 3
+    fun repartirCertificacion(cert: Certificacion){
+        vendedores.forEach { vend -> vend.agregarCertificacion(cert) }
+    }
 
 }
+
+
+
