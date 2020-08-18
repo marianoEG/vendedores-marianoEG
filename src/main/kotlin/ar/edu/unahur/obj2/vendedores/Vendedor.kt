@@ -28,6 +28,10 @@ abstract class Vendedor {
   fun otrasCertificaciones() = certificaciones.count { !it.esDeProducto }
 
   fun puntajeCertificaciones() = certificaciones.sumBy { c -> c.puntaje }
+
+  fun esGenerico() = this.otrasCertificaciones() > 0
+
+  abstract fun esInfluyente() : Boolean
 }
 
 // En los parámetros, es obligatorio poner el tipo
@@ -35,6 +39,9 @@ class VendedorFijo(val ciudadOrigen: Ciudad) : Vendedor() {
   override fun puedeTrabajarEn(ciudad: Ciudad): Boolean {
     return ciudad == ciudadOrigen
   }
+
+  override fun esInfluyente() = false
+
 }
 
 // A este tipo de List no se le pueden agregar elementos una vez definida
@@ -42,10 +49,14 @@ class Viajante(val provinciasHabilitadas: List<Provincia>) : Vendedor() {
   override fun puedeTrabajarEn(ciudad: Ciudad): Boolean {
     return provinciasHabilitadas.contains(ciudad.provincia)
   }
+  override fun esInfluyente() = this.provinciasHabilitadas.sumBy { p -> p.poblacion } >= 10000000
 }
 
 class ComercioCorresponsal(val ciudades: List<Ciudad>) : Vendedor() {
   override fun puedeTrabajarEn(ciudad: Ciudad): Boolean {
     return ciudades.contains(ciudad)
   }
+  fun provinciasConSucursales() = ciudades.map { c -> c.provincia }.toSet().size
+  fun ciudadesConSucursales() = ciudades.toSet().size
+  override fun esInfluyente() = (this.ciudadesConSucursales() >= 5) or (this.provinciasConSucursales() >= 3)
 }
