@@ -21,16 +21,6 @@ class CentroDistribucion(val ciudad: Ciudad) {
 
 }
 
-/*
-package ar.edu.unahur.obj2.vendedores
-val cordoba = Provincia(150000)
-val villaDolores = Ciudad(cordoba)
-val fijo = VendedorFijo(villaDolores)
-val cert1 = Certificacion(false,5)
-fijo.agregarCertificacion(cert1)
-val centro = CentroDistribucion(villaDolores)
-centro.agregarVendedor(fijo)
- */
 
 
 
